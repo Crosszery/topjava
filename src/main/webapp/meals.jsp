@@ -13,6 +13,20 @@
     td {
         padding: 5px;
     }
+    .td_button_edit {
+        border-radius: 5px;
+        background-color: aquamarine;
+
+    }
+    .td_button_delete {
+        border-radius: 5px;
+        background-color: indianred;
+
+    }
+    .a_td_button {
+        text-decoration: none;
+        color: black;
+    }
 </style>
 
 <html lang="ru">
@@ -26,6 +40,7 @@
 <h2>Meals</h2>
 <table>
     <tr>
+        <td><b>Id</b></td>
         <td><b>DateTime</b></td>
         <td><b>Description</b></td>
         <td><b>Calories</b></td>
@@ -33,9 +48,12 @@
     <c:set var="dateTimeFormatter" value="${DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm\")}"/>
     <c:forEach items="${requestScope.mealsTo}" var="meal">
         <tr style="color: ${meal.excess ? "red" : "green"}">
+            <td>${meal.id}</td>
             <td>${meal.dateTime.format(dateTimeFormatter)}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
+            <td class="td_button_edit"><a class="a_td_button" href="meals?action=edit&id=${meal.id}">Update</a></td>
+            <td class="td_button_delete"><a class="a_td_button" href="meals?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
