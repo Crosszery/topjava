@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.dao.InMemoryMealDao;
 import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.util.MealsUtil;
 import javax.servlet.ServletException;
@@ -15,7 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
     private static final int CALORIES_PER_DAY = 2000;
-    private final MealDao mealDao = new MealDao();
+    private final MealDao mealDao = new InMemoryMealDao();
     //Navigation
     private static final String UPSERT = "/meal.jsp";
     private static final String LIST_MEALS = "/meals.jsp";
