@@ -7,7 +7,9 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
@@ -43,5 +45,14 @@ public class MealService {
 
     public void update(Meal meal, int userId) {
         checkNotFound(repository.save(meal, userId), meal.getId());
+    }
+
+    public List<MealTo> getFiltered(int userId, LocalDateTime startTime, LocalDateTime endTime) {
+        Predicate<Meal> mealDatesPredicate = new Predicate<Meal>() {
+            public boolean test(Meal meal) {
+                return meal.getDateTime().isAfter(startTime) && meal.getDateTime().isBefore(endTime);
+            }
+        };
+        return MealsUtil.filterByPredicate(repository.getAll(userId), MealsUtil.DEFAULT_CALORIES_PER_DAY, mealDatesPredicate);
     }
 }

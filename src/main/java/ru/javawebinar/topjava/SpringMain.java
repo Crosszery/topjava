@@ -7,6 +7,8 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
 
 public class SpringMain {
@@ -19,6 +21,7 @@ public class SpringMain {
             MealRestController mealController = appCtx.getBean(MealRestController.class);
             System.out.println(mealController.getAll());
             System.out.println(mealController.get(1));
+            System.out.println(mealController.getFiltered(LocalDateTime.of(2019, Month.JANUARY, 30, 10, 0), LocalDateTime.of(2020, Month.JANUARY, 30, 23, 50)));
         }
     }
 }
