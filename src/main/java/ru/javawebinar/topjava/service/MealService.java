@@ -48,11 +48,7 @@ public class MealService {
     }
 
     public List<MealTo> getFiltered(int userId, LocalDateTime startTime, LocalDateTime endTime) {
-        Predicate<Meal> mealDatesPredicate = new Predicate<Meal>() {
-            public boolean test(Meal meal) {
-                return meal.getDateTime().isAfter(startTime) && meal.getDateTime().isBefore(endTime);
-            }
-        };
+        Predicate<Meal> mealDatesPredicate = meal -> meal.getDateTime().isAfter(startTime) && meal.getDateTime().isBefore(endTime);
         return MealsUtil.filterByPredicate(repository.getAll(userId), MealsUtil.DEFAULT_CALORIES_PER_DAY, mealDatesPredicate);
     }
 }
