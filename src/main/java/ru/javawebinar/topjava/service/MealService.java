@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 
@@ -19,21 +22,25 @@ public class MealService {
         this.repository = repository;
     }
 
-    public Meal create(Meal meal, int userId) {
-        return repository.save(meal, userId);
+    public MealTo create(Meal meal, int userId) {
+        return MealsUtil.createTo(repository.save(meal, userId), false);
     }
 
     public void delete(int id, int userId) {
         checkNotFound(repository.delete(id, userId), id);
     }
 
-    public Meal get(int id, int userId) {
-        return checkNotFound(repository.get(id, userId), id);
+    public MealTo get(int id, int userId) {
+        return MealsUtil.createTo(checkNotFound(repository.get(id, userId), id), false);
     }
 
-    public List<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+    public List<MealTo> getAll(int userId) {
+        return repository.getAll(userId)
+                .stream()
+                .map(m -> MealsUtil.createTo(m, false))
+                .collect(Collectors.toList());
     }
+
     public void update(Meal meal, int userId) {
         checkNotFound(repository.save(meal, userId), meal.getId());
     }
